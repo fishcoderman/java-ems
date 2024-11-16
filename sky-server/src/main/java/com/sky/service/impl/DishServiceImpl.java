@@ -89,7 +89,7 @@ public class DishServiceImpl implements DishService {
       }
     }
     // 查询当前的菜品列表是不是被套餐关联了
-    List<Long> setmealIds = setmealDishMapper.getSetmealsIdsByDishIds(ids);
+    List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
     if (setmealIds != null && setmealIds.size() > 0) {
       throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
     }
@@ -170,5 +170,19 @@ public class DishServiceImpl implements DishService {
     }
 
     return dishVOList;
+  }
+
+  /**
+   * 根据分类id查询菜品
+   *
+   * @param categoryId
+   * @return
+   */
+  public List<Dish> list(Long categoryId) {
+    Dish dish = Dish.builder()
+        .categoryId(categoryId)
+        .status(StatusConstant.ENABLE)
+        .build();
+    return dishMapper.list(dish);
   }
 }
